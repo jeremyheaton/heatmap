@@ -8,6 +8,7 @@ app.set('port', (process.env.PORT || 8888));
 
 app.get('/', function(req, res) {
 });
+
 app.get('/coordinates', routes.getCoords);
 
 app.get('/delete', routes.getCoords);

@@ -1,5 +1,6 @@
 var routes = require('../routes')
-var models = require("../models");
+var models = require("../models")
+var request = require('request');
 
 // writes colorful output!
 
@@ -39,6 +40,20 @@ describe("Testing the functions in routes.js", function() {
 			var boundary = routes.setBoundries(3, -115, 62, 112)
 			routes.searchCoords(boundary, function(data) {
 				expect(data.length).to.equal(151)
+				done();
+			});
+		});
+	});
+
+	describe("Get Coords function", function() {
+		it('should return 400', function(done) {
+			this.timeout(10000);
+			request.get('peaceful-cove-23657.herokuapp.com/coordinates', function(err, res, body) {
+				console.log(res);
+				console.log(err);
+				console.log(body);
+				//expect(res.statusCode).to.equal(400);
+				//expect(res.body).to.equal('wrong header');
 				done();
 			});
 		});

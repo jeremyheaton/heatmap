@@ -7,8 +7,8 @@ var dataPoint = require(__dirname + '/' + 'datapoint.js');
 var Sequelize = require("sequelize");
 var inputFile = 'GeoLiteCityv6.csv';
 var alasql = require("alasql");
-models.sequelize.sync().then(
-		models.DataPoint.drop();
+
+models.sequelize.sync({force: true}).then(
 		function() {
 			var parser = parse({
 				delimiter : ','
@@ -50,9 +50,8 @@ function group(data) {
 }
 
 function normalize(array, max, min) {
-
 	for ( var point in array) {
-		array[point].ipcount = (Log(array[point].ipcount)) / (max)
+		array[point].ipcount = (Log(array[point].ipcount) - min) / (max - min)
 		routes.saveDataPoint(array[point]);
 	}
 }

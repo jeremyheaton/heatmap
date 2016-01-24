@@ -16,15 +16,21 @@ exports.getCoordinates = function(req, res) {
         res.json(data);
     });
 };
-//function to fetch results for get request
-exports.getCoords = function(req, res){
-		var boundary = exports.setBoundries(Number(req.param('corner1lat')),Number(req.param('corner1lng')),
-					Number(req.param('corner2lat')), Number(req.param('corner2lng')))
-		exports.searchCoords(boundary,  function(data) {
-					res.json(exports.makeDataArray(data))
-		})
-	}
+// function to fetch results for get request
+exports.getCoords = function(req, res) {
+    if (req.param('corner1lat') && req.param('corner2lat') && req.param('corner2lng') && req.param('corner1lng')) {
+        var boundary = exports.setBoundries(Number(req.param('corner1lat')), Number(req.param('corner1lng')),
+            Number(req.param('corner2lat')), Number(req.param('corner2lng')))
+        exports.searchCoords(boundary, function(data) {
+            res.json(exports.makeDataArray(data))
+        });
+    } else {
+    	res.status(400);
+    	res.send('You must provide all coordinate paramters');
+    }
 
+}
+// function to calculate the boundary values
 exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat, corner2lng) {
 	var boundary = new Object();
 		boundary.ylowerbound = corner1lat > corner2lat ?  corner2lat : corner1lat
@@ -33,9 +39,9 @@ exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat,
 		boundary.xupperbound = corner2lng > corner1lng ?  corner2lng : corner1lng
 	return boundary;
 }
-
+// function that turns the returned sequelize object into a simple array for
+// front end processing
 exports.makeDataArray = function makeData(data){
-	
 	var array=[]
 	for ( var attributename in data) {
 		var point =[]
@@ -44,7 +50,7 @@ exports.makeDataArray = function makeData(data){
 	}
 	return array;
 }
-// Function that searches the db for coordinates of a square. 
+// Function that searches the db for coordinates of a square.
 exports.searchCoords = function searchCoords(boundary, callback){
 	 models.sequelize.query('SELECT "data".longitude, "data".latitude, "data".ipscount FROM ('
 		 		+ ' SELECT * FROM "DataPoints" as "data"'

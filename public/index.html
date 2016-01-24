@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<link rel="stylesheet" href="css/leaflet.css" />
 		<link rel="stylesheet" href="css/leaflet.draw.css" />
-		<script src="js/leaflet.js"></script>
-		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<style>
 			#map {
-				width: 800px;
+				width: 1050px;
 				height: 600px;
 			}
 			body {
@@ -25,52 +22,11 @@
 		</style>
 	</head>
 	<body>
-
 		<div id="map"></div>
-
-		<!-- <script src="../node_modules/simpleheat/simpleheat.js"></script>
-		<script src="../src/HeatLayer.js"></script> -->
-
+		<script src="js/leaflet.js"></script>
+		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="js/leaflet-heat.js"></script>
 		<script src="js/leaflet.draw.js"></script>
-
-		<script>
-			var currentBox;
-			var map = L.map('map', {
-				drawControl : true,
-				PolylineOptions : false,
-				PolygonOptions : false,
-				CircleOptions : false,
-				MarkerOptions : false
-			}).setView([-37.87, 175.475], 12);
-			var heat = L.heatLayer([], {max : 20, radius :50, minOpacity : .25}).addTo(map);
-			var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-			map.on('draw:created', function(e) {
-				if (currentBox) {
-					map.removeLayer(currentBox);
-				}
-
-				var type = e.layerType, layer = e.layer;
-				if (type === 'rectangle') {
-					currentBox = e.layer
-					console.log(layer.getLatLngs());
-					sendCoords(layer.getLatLngs()[0], layer.getLatLngs()[2]);
-				}
-
-				map.addLayer(layer);
-			});
-
-			function sendCoords(corner1, corner2) {
-
-				$.ajax({
-					url : '/coordinates?corner1lng=' + corner1.lng + "&corner1lat=" + corner1.lat + '&corner2lng=' + corner2.lng + "&corner2lat=" + corner2.lat,
-					success : function(response) {
-						heat.setLatLngs(response)
-						console.log(response)
-
-					}
-				});
-			}
-		</script>
+		<script src="js/index.js"></script>
 	</body>
 </html>
