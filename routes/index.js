@@ -20,20 +20,9 @@ exports.getCoordinates = function(req, res) {
 exports.getCoords = function(req, res){
 		var boundary = exports.setBoundries(Number(req.param('corner1lat')),Number(req.param('corner1lng')),
 					Number(req.param('corner2lat')), Number(req.param('corner2lng')))
-					
-					 models.sequelize.query('SELECT "data".longitude, "data".latitude, "data".ipscount FROM ('
-						 		+ ' SELECT * FROM "DataPoints" as "data"'
-						 		+ ' WHERE "data".longitude BETWEEN '
-						 		+ boundary.xlowerbound + ' and ' + boundary.xupperbound + ') data'
-						 		+ ' WHERE "data".latitude BETWEEN '
-						 		+ boundary.ylowerbound + ' and '
-						 		+ boundary.yupperbound + ';', { type: models.sequelize.QueryTypes.SELECT}).then(function(data) {
-						 			res.json(exports.makeDataArray(data));
-						 		});
-					
-//		exports.searchCoords(boundary,  function(data) {
-//					res.json(exports.makeDataArray(data))
-//		})
+		exports.searchCoords(boundary,  function(data) {
+					res.json(exports.makeDataArray(data))
+		})
 	}
 
 exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat, corner2lng) {
