@@ -44,7 +44,7 @@
 				MarkerOptions : false
 			}).setView([-37.87, 175.475], 12);
 			var heat = L.heatLayer([], {max : 20, radius :50, minOpacity : .25}).addTo(map);
-			var tiles = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+			var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 			map.on('draw:created', function(e) {
 				if (currentBox) {
 					map.removeLayer(currentBox);
