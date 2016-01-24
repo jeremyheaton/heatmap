@@ -3,9 +3,6 @@ var app = require('express')();
 var routes = require('./routes')
 var http = require('http').Server(app);
 var express = require('express');
-var request = require('request'); // "Request" library
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
 app.use(express.static('public'));
 app.set('port', (process.env.PORT || 8888));
 

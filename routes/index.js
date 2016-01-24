@@ -16,13 +16,24 @@ exports.getCoordinates = function(req, res) {
         res.json(data);
     });
 };
-
+//function to fetch results for get request
 exports.getCoords = function(req, res){
 		var boundary = exports.setBoundries(Number(req.param('corner1lat')),Number(req.param('corner1lng')),
 					Number(req.param('corner2lat')), Number(req.param('corner2lng')))
-		exports.searchCoords(boundary,  function(data) {
-					res.json(exports.makeDataArray(data))
-		})
+					
+					 models.sequelize.query('SELECT "data".longitude, "data".latitude, "data".ipscount FROM ('
+						 		+ ' SELECT * FROM "DataPoints" as "data"'
+						 		+ ' WHERE "data".longitude BETWEEN '
+						 		+ boundary.xlowerbound + ' and ' + boundary.xupperbound + ') data'
+						 		+ ' WHERE "data".latitude BETWEEN '
+						 		+ boundary.ylowerbound + ' and '
+						 		+ boundary.yupperbound + ';', { type: models.sequelize.QueryTypes.SELECT}).then(function(data) {
+						 			res.json(exports.makeDataArray(data));
+						 		});
+					
+//		exports.searchCoords(boundary,  function(data) {
+//					res.json(exports.makeDataArray(data))
+//		})
 	}
 
 exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat, corner2lng) {
@@ -44,7 +55,7 @@ exports.makeDataArray = function makeData(data){
 	}
 	return array;
 }
-
+// Function that searches the db for coordinates of a square. 
 exports.searchCoords = function searchCoords(boundary, callback){
 	 models.sequelize.query('SELECT "data".longitude, "data".latitude, "data".ipscount FROM ('
 		 		+ ' SELECT * FROM "DataPoints" as "data"'
