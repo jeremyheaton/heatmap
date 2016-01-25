@@ -42,8 +42,10 @@ exports.getCoords = function(req, res, websocket, callback) {
         		 fish = pb.toArrayBuffer();
         		
         	}
-        	
-            callback(fish);
+        	if(!callback == null){
+        		  callback(fish);
+        	}
+          
         })
     } else {
     	res.status(400);
