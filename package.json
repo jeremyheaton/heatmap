@@ -24,6 +24,9 @@
     "alasql": "^0.2.2",
     "deadunit": "^5.1.12",
     "mocha": "^2.3.4",
-    "chai": "^3.4.1"
+    "chai": "^3.4.1",
+    "socket.io": "^1.4.4",
+    "protobufjs": "^5.0.1",
+    "protobuf.js": "^1.1.2"
   }
 }

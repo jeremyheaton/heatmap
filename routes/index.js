@@ -1,4 +1,15 @@
 var models = require("../models");
+
+var path = require("path")
+var ProtoBuf = require("protobufjs")
+var builder = ProtoBuf.loadProtoFile(path.join(__dirname, "coordinates.proto"));
+var root = builder.build()
+CoordHolder = root.CoordHolder;
+Coord = root.Coord;
+var coordArray = new CoordHolder();
+
+
+
 exports.saveDataPoint = function(point) {
 	models.DataPoint.create({
         ipscount:  point.ipcount,
@@ -17,19 +28,42 @@ exports.getCoordinates = function(req, res) {
     });
 };
 // function to fetch results for get request
-exports.getCoords = function(req, res) {
+exports.getCoords = function(req, res, websocket, callback) {
+	var pb
+	var fish
     if (req.param('corner1lat') && req.param('corner2lat') && req.param('corner2lng') && req.param('corner1lng')) {
         var boundary = exports.setBoundries(Number(req.param('corner1lat')), Number(req.param('corner1lng')),
             Number(req.param('corner2lat')), Number(req.param('corner2lng')))
         exports.searchCoords(boundary, function(data) {
-            res.json(exports.makeDataArray(data))
-        });
+        	if(!websocket){
+        		res.json(exports.makeDataArray(data))
+        	} else{
+        		pb = exports.makeProtoBuff(data)
+        		 fish = pb.toArrayBuffer();
+        		
+        	}
+        	
+            callback(fish);
+        })
     } else {
     	res.status(400);
     	res.send('You must provide all coordinate paramters');
     }
 
 }
+exports.makeProtoBuff = function makeProtoBuff(data){
+	var inners = []
+	for ( var attributename in data) {
+		var point =[]
+    	inners.push(new Coord(new Coord.Lat(data[attributename].latitude),
+				new Coord.Lng(data[attributename].longitude),
+				new Coord.Ipcount(Number(data[attributename].ipscount))));
+	}
+	 
+	return coordArray.setCoords(inners);
+}
+
+
 // function to calculate the boundary values
 exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat, corner2lng) {
 	var boundary = new Object();

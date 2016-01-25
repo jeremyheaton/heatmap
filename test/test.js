@@ -10,7 +10,6 @@ describe("Testing the functions in routes.js", function() {
 	describe("Boundary calculations", function() {
 		it("calculates the parameters of the coordinates", function() {
 			var coords = routes.setBoundries(1, 2, 3, 4)
-			console.log(coords);
 			expect(coords.ylowerbound).to.equal(1)
 			expect(coords.xlowerbound).to.equal(2)
 			expect(coords.yupperbound).to.equal(3)
@@ -48,12 +47,9 @@ describe("Testing the functions in routes.js", function() {
 	describe("Get Coords function", function() {
 		it('should return 400', function(done) {
 			this.timeout(10000);
-			request.get('peaceful-cove-23657.herokuapp.com/coordinates', function(err, res, body) {
-				console.log(res);
-				console.log(err);
-				console.log(body);
-				//expect(res.statusCode).to.equal(400);
-				//expect(res.body).to.equal('wrong header');
+			request.get('http://localhost:8888/coordinates', function(err, res, body) {
+				expect(res.statusCode).to.equal(400);
+				expect(res.body).to.equal('You must provide all coordinate paramters');
 				done();
 			});
 		});

@@ -1,0 +1,18 @@
+message Coord {
+    message Lat {
+        required double lat = 1;
+    }
+   message Lng {
+        required double lng = 1;
+    }
+     message Ipcount {
+        required double lng = 1;
+    }
+    required  Lat  lat  = 1;                 
+    required  Lng  lng = 2;                 
+    required  Ipcount  ipcount  = 3; 
+}
+
+message CoordHolder {
+    repeated Coord coords = 1;
+}
