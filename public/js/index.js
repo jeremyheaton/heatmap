@@ -1,7 +1,4 @@
 
-		
-		
-
 var currentBox;
 var map = L.map('map', {
 	drawControl : true,
@@ -34,9 +31,11 @@ map.on('draw:created', function(e) {
 });
 
 function sendCoords(corner1, corner2) {
+	var href = window.location.href;
+	var endPoint = href.substr(href.lastIndexOf('/') + 1) == "ws" ? '/coordinates2' : '/coordinates'
 	$.ajax({
-		url : '/coordinates2?corner1lng=' + corner1.lng + "&corner1lat="
-				+ corner1.lat + '&corner2lng=' + corner2.lng + "&corner2lat="
+		url : endPoint + '?corner1lng=' + corner1.lng + '&corner1lat='
+				+ corner1.lat + '&corner2lng=' + corner2.lng + '&corner2lat='
 				+ corner2.lat,
 		success : function(response) {
 		//	console.log(response)
