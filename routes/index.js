@@ -52,11 +52,11 @@ exports.getCoords = function(req, res, websocket, callback) {
 }
 exports.makeProtoBuff = function makeProtoBuff(data){
 	var inners = []
-	for ( var attributename in data) {
+	for ( var i in data) {
 		var point =[]
-    	inners.push(new Coord(new Coord.Lat(data[attributename].latitude),
-				new Coord.Lng(data[attributename].longitude),
-				new Coord.Ipcount(Number(data[attributename].ipscount))));
+    	inners.push(new Coord(new Coord.Lat(data[i].latitude),
+				new Coord.Lng(data[i].longitude),
+				new Coord.Ipcount(Number(data[i].ipscount))));
 	}
 	return coordArray.setCoords(inners);
 }
@@ -75,9 +75,9 @@ exports.setBoundries = function setBoundries(corner1lat, corner1lng, corner2lat,
 // front end processing
 exports.makeDataArray = function makeData(data){
 	var array=[]
-	for ( var attributename in data) {
+	for ( var i in data) {
 		var point =[]
-		point.push(data[attributename].latitude,data[attributename].longitude,Number(data[attributename].ipscount));
+		point.push(data[i].latitude,data[i].longitude,Number(data[i].ipscount));
 		array.push(point);
 	}
 	return array;
