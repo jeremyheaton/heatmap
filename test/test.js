@@ -2,7 +2,7 @@ var routes = require('../routes')
 var models = require("../models")
 var request = require('request');
 
-// writes colorful output!
+
 
 var expect = require("chai").expect;
 
@@ -30,8 +30,19 @@ describe("Testing the functions in routes.js", function() {
 			} ]
 			var data = routes.makeDataArray(testData)
 			expect(data.length).to.equal(2)
+			console.log(data)
+			expect(data[0][0]).to.equal(15)
+			expect(data[0][1]).to.equal(48)
+			expect(data[0][2]).to.equal(0.9305815689031963)
+			
+			expect(data[1][0]).to.equal(40)
+			expect(data[1][1]).to.equal(60)
+			expect(data[1][2]).to.equal(0.9136639351151392)
+			
 		});
 	});
+	
+	
 
 	describe("Fetches Coordinates", function() {
 		it("searches the database for coordinates", function(done) {

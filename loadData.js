@@ -5,32 +5,40 @@ var parse = require('csv-parse');
 var async = require('async');
 var dataPoint = require(__dirname + '/' + 'datapoint.js');
 var Sequelize = require("sequelize");
-var inputFile = 'GeoLiteCityv6.csv';
+var inputFile = process.argv[2];
 var alasql = require("alasql");
 
-models.sequelize.sync({force: true}).then(
-		function() {
-			var parser = parse({
-				delimiter : ','
-			}, function(err, data) {
-				var normalizeData = []
-				for ( var attributename in data) {
-					var point = new dataPoint(Number(
-							data[attributename][3], 10 -
-							data[attributename][2], 10),
-							Number(data[attributename][7]),
-							Number(data[attributename][8]))
-					normalizeData.push(point);
-				}
+if(inputFile != null){
+	models.sequelize.sync({force: true}).then(
+			function() {
+				var parser = parse({
+					delimiter : ','
+				}, function(err, data) {
+					var normalizeData = []
+					for ( var attributename in data) {
+						var point = new dataPoint(Number(
+								data[attributename][3], 10 -
+								data[attributename][2], 10),
+								Number(data[attributename][7]),
+								Number(data[attributename][8]))
+						normalizeData.push(point);
+					}
 
-				normalize(group(normalizeData), getMax(group(normalizeData)),
-						getMin(group(normalizeData)));
+					normalize(group(normalizeData), getMax(group(normalizeData)),
+							getMin(group(normalizeData)));
+
+				});
+				
+					fs.createReadStream(inputFile).pipe(parser);
+				
+				
 
 			});
+}
 
-			fs.createReadStream(inputFile).pipe(parser);
 
-		});
+
+
 
 function getMax(array) {
 	return Math.max.apply(Math, array.map(function(o) {

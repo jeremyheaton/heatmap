@@ -1,5 +1,4 @@
 var models = require("../models");
-
 var path = require("path")
 var ProtoBuf = require("protobufjs")
 var builder = ProtoBuf.loadProtoFile(path.join(__dirname, "coordinates.proto"));
@@ -7,8 +6,6 @@ var root = builder.build()
 CoordHolder = root.CoordHolder;
 Coord = root.Coord;
 var coordArray = new CoordHolder();
-
-
 
 exports.saveDataPoint = function(point) {
 	models.DataPoint.create({
@@ -40,16 +37,12 @@ exports.getCoords = function(req, res, websocket, callback) {
         	} else{
         		pb = exports.makeProtoBuff(data)
         		 fish = pb.toArrayBuffer();
-        		
         	}
         	try{
         		 callback(fish);
         	}
         		 catch(e){
-        			 
         		 }
-        	
-          
         })
     } else {
     	res.status(400);
@@ -65,7 +58,6 @@ exports.makeProtoBuff = function makeProtoBuff(data){
 				new Coord.Lng(data[attributename].longitude),
 				new Coord.Ipcount(Number(data[attributename].ipscount))));
 	}
-	 
 	return coordArray.setCoords(inners);
 }
 

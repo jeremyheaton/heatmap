@@ -12,7 +12,6 @@ io.sockets.on('connection', function(socket) {
 		console.log('joining room');
 		socket.join("test");
 	})
-
 });
 
 app.get('/', function(req, res) {
@@ -26,14 +25,9 @@ app.get('/coordinates2', function(req, res) {
 	routes.getCoords(req, res, true, function(buf){
 		io.sockets.in("test").emit('message', buf);
 		console.log(buf);
-	//	console.log(buf.decode);
+	// console.log(buf.decode);
 	})
-
-
-		
-
 // console.log(test)
-
 });
 
 app.get('/ws', function(req, res) {

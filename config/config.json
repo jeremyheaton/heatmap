@@ -5,7 +5,6 @@
 		"database": "d9a4ju19ttep3u",
 		"host": "ec2-54-227-249-165.compute-1.amazonaws.com",
 		"dialect": "postgres",
-
 		"port": "5432"
 	},
 	"production": {

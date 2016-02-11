@@ -3,34 +3,12 @@
 	<head>
 		<link rel="stylesheet" href="css/leaflet.css" />
 		<link rel="stylesheet" href="css/leaflet.draw.css" />
-		<style>
-			#map {
-				width: 1050px;
-				height: 600px;
-			}
-			body {
-				font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
-			}
-			.ghbtns {
-				position: relative;
-				top: 4px;
-				margin-left: 5px;
-			}
-			a {
-				color: #0077ff;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="map"></div>
-
 		<script src="js/ByteBufferAB.min.js"></script>
 		<script src="js/Long.min.js"></script>
 		<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/5.0.0/dist/protobuf.js"></script>
-
-		<!-- https://raw.github.com/dcodeIO/Long.js/master/dist/Long.min.js -->
-
-		<!-- https://raw.github.com/dcodeIO/ByteBuffer.js/master/dist/ByteBufferAB.min.js -->
 		<script src="js/leaflet.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="js/leaflet-heat.js"></script>
@@ -56,14 +34,13 @@
 		socket.on('message', function(data) {
 			var coords = (CoordHolder.decode(data)).coords
 			var array = []
-			for (var point in coords ){
-				var coord =[]
+			for (var point in coords ) {
+				var coord = []
 				coord.push(coords[point].lat.lat, coords[point].lng.lng, coords[point].ipcount.ipcount)
 				array.push(coord)
 			}
-			 console.log(array);
+			console.log(array);
 			heat.setLatLngs(array)
-
 		});
 	</script>
 </html>
